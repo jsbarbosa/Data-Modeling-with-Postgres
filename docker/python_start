@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sleep 5
+
+echo "Running create_tables..."
+python create_tables.py
+echo "Running etl..."
+python etl.py

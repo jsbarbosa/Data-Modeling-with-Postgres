@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  postgres: 
+    image: postgres:latest
+    container_name: postgresql
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: student
+      POSTGRES_DB: studentdb
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    network_mode: host
+
+  python_app:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+
+    image: python
+    depends_on:
+      - postgres
+    network_mode: host
+    command: /python_start
+    environment:
+      - "PYTHONUNBUFFERED=1"
+
+volumes:
+    postgres:
