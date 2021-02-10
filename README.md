@@ -1,5 +1,8 @@
 # sparkifydb ETL
 
+Sparkify is a music streaming app, who wants to analyze the data they've been collecting on songs and user activity.
+
+Data is originally stored in json files, but in order to analyse it a postgres database was built with the following schema:
 ## Schema
 - Fact Table: `songplays`
     - records in log data associated with song plays i.e. records with page NextSong
@@ -40,10 +43,34 @@
         - month
         - year
         - weekday
+### Running
+The process that creates the schema can be run as follows:
+```
+python create_tables.py
+```
 
 ## ETL
+The logical process by which the data is uploaded to the database is composed by two steps:
 - `create_tables.py`
     - `CREATE` schema
     - `DROP` drop schema
 - `etl.py`
-    - process the entire datasets (from JSON to PostgreSQL
+    - populates the entire database by using the data available in `/data/`
+    
+### Running
+After the schema is built, the ETL process can be run as follows:
+```
+python etl.py
+```
+
+## Project requirements
+Requirements can be found in `requirements.txt`
+
+# Docker
+A container for the whole application can be found in `docker/`
+
+## Running
+```
+cd docker/
+sudo docker-compose up
+```
