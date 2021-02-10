@@ -72,18 +72,18 @@ CREATE TABLE IF NOT EXISTS time(
 # INSERT RECORDS
 
 songplay_table_insert = ("""
-INSERT INTO songplays
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO songplays (start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT (songplay_id) 
-DO 
-   UPDATE SET level = EXCLUDED.level;
+DO NOTHING;
 """)
 
 user_table_insert = ("""
 INSERT INTO users
 VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT (user_id) 
-DO NOTHING;
+DO
+   UPDATE SET level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
@@ -121,5 +121,18 @@ AND songs.duration =%s
 
 # QUERY LISTS
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [
+    songplay_table_create,
+    user_table_create,
+    song_table_create,
+    artist_table_create,
+    time_table_create
+]
+
+drop_table_queries = [
+    songplay_table_drop,
+    user_table_drop,
+    song_table_drop,
+    artist_table_drop,
+    time_table_drop
+]
